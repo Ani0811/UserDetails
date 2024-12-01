@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management</title>
+    <link rel="stylesheet" href="../userdt.com/css/bootstrap.5.0.2.css">
+    <!--<link rel="stylesheet" href="../userdt.com/css/bootstrap.5.3.3.css">-->
+    <link rel="stylesheet" href="../userdt.com/css/usmp.css">
+    <link rel="stylesheet" href="../userdt.com/css/bootstrap-datepicker.css">
+    <!--<link rel="stylesheet" href="../userdt.com/css/bootstrap-datepicker.1.10.0.css">-->
+    <script src="../userdt.com/js/jquery.1.12.2.js"></script>
+    <!--<script src="../userdt.com/js/jquery.3.7.1.js"></script>-->
+    <script src="../userdt.com/js/bootstrap.5.0.2.js"></script>
+    <script src="../userdt.com/js/bootstrap.bundle.js"></script>
+    <!--<script src="../userdt.com/js/bootstrap.5.3.3.bundle.js"></script>-->
+    <script src="../userdt.com/js/bootstrap.popper.js"></script>
+    <script src="../userdt.com/js/bootstrap-datepicker.1.9.0.js"></script>
+    <script src="../userdt.com/js/UserScript.1.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#DOB').datepicker({
+                format: 'dd/mm/yyyy',
+                todayHighlight: true,
+                autoclose: true,
+                endDate: new Date()
+            });
+        });
+    </script>
+    <script>
+        function get_Clear_form()
+        {
+            document.forms[0].reset();
+            document.getElementById("username").readOnly = false;
+            document.getElementById("btn_AddUser").disabled = false;
+            document.getElementById("btn_UpdateUser").disabled = true;
+            document.getElementById("btn_DeleteUser").disabled = true;
+        }
+    </script>  
+</head>
+<body>
+    <table>
+        <tr>
+            <td>
+                <table>
+                    <thead>
+                        <th colspan="6">User Details :- </th>
+                    </thead>
+                </table>
+                <div class="table-container">
+                    <div id="Grid_table"></div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="modal fade" id="msgDialog" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header" style="background-color: darkcyan; color: whitesmoke;">
+                                <h5 class="modal-title">Alert!</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body" style="padding-bottom: 2px;">
+                                <p id="message" class="text-dark"></p>
+                            </div>
+                            <div class="modal-footer" style="border-top: none; padding-top: 2px;">
+                                <button type="button" id="btn_ok" class="btn btn-primary" data-bs-dismiss="modal" data-bs-target="#msgDialog">Ok</button>
+                            </div>                            
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="confirmInsert" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header" style="background-color: darkcyan; color: whitesmoke;">
+                                <h5 class="modal-title">Confirmation!</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body" style="padding-bottom: 2px;">
+                                <p id="msgIns" class="text-dark">Do You Want To Insert This Record?</p>
+                            </div>
+                            <div class="modal-footer"  style="border-top: none; padding-top: 2px;">
+                                <button type="button" class="btn btn-success" id="btn_InsertYes">Yes</button>
+                                <button type="button" class="btn btn-danger" id="btn_InsertNo" data-dismiss="modal">No</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="confirmUpdate" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header" style="background-color: darkcyan; color: whitesmoke;">
+                                <h5 class="modal-title">Confirmation!</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body" style="padding-bottom: 2px;">
+                                <p id="msgUpd" class="text-dark">Are You Sure You Want To Update This Record?</p>
+                            </div>
+                            <div class="modal-footer"  style="border-top: none; padding-top: 2px;">
+                                <button type="button" class="btn btn-success" id="btn_UpdateYes">Yes</button>
+                                <button type="button" class="btn btn-danger" id="btn_UpdateNo" data-dismiss="modal">No</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="confirmDelete" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header" style="background-color: darkcyan; color: whitesmoke;">
+                                <h5 class="modal-title">Confirmation!</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body" style="padding-bottom: 2px;">
+                                <p id="msgDel" class="text-dark">Do You Want To Delete This Record?</p>
+                            </div>
+                            <div class="modal-footer" style="border-top: none; padding-top: 2px;">
+                                <button type="button" id="btn_DeleteYes" class="btn btn-success">Yes</button>
+                                <button type="button" id="btn_DeleteNo" class="btn btn-danger" data-dismiss="modal">No</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <form>
+                    <div class="table-container2">
+                        <table id="t_form">
+                            <thead>
+                                <th colspan="4">Enter User Details :-</th>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><label for="username">User Name :</label></td>
+                                    <td><input type="text" placeholder="Enter User Name" id="username" maxlength="30" required></td>
+
+                                    <td><label for="loc">Location :</label></td>
+                                    <td><input type="text" placeholder="Enter Location" id="loc" name="loc" maxlength="50" required></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="email">eMail Address:</label></td>
+                                    <td><input type="email" placeholder="Enter eMail Address" id="email" name="email" maxlength="30" required></td>
+                                
+                                    <td><label for="dob">Date of Birth :</label></td>
+                                    <td><input type="text" placeholder="dd/mm/yyyy" id="DOB" name="DOB" title="Enter Date of Birth" autocomplete="off" readonly maxlength="10"></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="uType">User Type :</label></td>
+                                    <td>
+                                        <select id="uType" name="uType" required>
+                                            <option selected>-Select-</option>
+                                            <option value="Admin">Admin</option>
+                                            <option value="Group User">Group User</option>
+                                        </select>
+                                    </td>
+                                    <td><label for="uActive">Active :</label></td>
+                                    <td>
+                                        <select id="uActive" name="uActive" required>
+                                            <option selected>-Select-</option>
+                                            <option value="Yes">Yes</option>
+                                            <option value="No">No</option>
+                                        </select>                                        
+                                    </td>                        
+                                </tr>
+                                <tr>
+                                    <td><label for="password">Password :</label></td>
+                                    <td><input type="password" id="password" name="password" placeholder="Enter Password" autocomplete="off" maxlength="20" required></td>
+                                    <td></td>
+                                    <td style="text-align: right;">
+                                        <button id="btn_AddUser" type="button" class="btn btn-success">Add New User</button>
+                                        <button id="btn_UpdateUser" type="button" class="btn btn-secondary" disabled>Update User</button>
+                                        <button id="btn_DeleteUser" type="button" class="btn btn-danger"disabled>Delete User</button>
+                                        <button id="btn_Clear" type="button" class="btn btn-primary" onclick="get_Clear_form();">Clear</button>
+                                    </td>
+                                </tr>
+                                <input type="hidden" id="h_USER_ID" value="">
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

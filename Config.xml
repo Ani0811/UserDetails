@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+	<HOST>localhost</HOST>
+	<DBNAME>UserDB</DBNAME>
+	<USERNAME>root</USERNAME>
+	<PASSWORD>sasa</PASSWORD>
+	<PORT>3306</PORT>
+	<WITHXML_SP>Y</WITHXML_SP>
+</CONFIG>
